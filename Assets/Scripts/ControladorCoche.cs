@@ -5,6 +5,13 @@ public class ControladorCoche : MonoBehaviour
     public GameObject cocheGO;
     public float anguloDeGiro;
     public float velocidad;
+    public float velocidadMinima = 5f;
+    public float velocidadMaxima = 20f;
+    public float velocidadAumento = 0.5f;
+
+    [HideInInspector]
+    public bool estaEnTerrenoLento = false;
+
     void Start()
     {
         cocheGO = GameObject.FindAnyObjectByType<Coche>().gameObject;
@@ -18,6 +25,11 @@ public class ControladorCoche : MonoBehaviour
         giroEnZ = Input.GetAxis("Horizontal") * -anguloDeGiro;
 
         cocheGO.transform.rotation = Quaternion.Euler(0,0,giroEnZ);
-        
+        if (!estaEnTerrenoLento && velocidad < velocidadMaxima)
+        {
+            velocidad += velocidadAumento * Time.deltaTime;
+            velocidad = Mathf.Min(velocidad, velocidadMaxima);
+        }
     }
+
 }

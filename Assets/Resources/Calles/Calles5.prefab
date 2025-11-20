@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1418685809266417130}
   - component: {fileID: 4375672620274640791}
   - component: {fileID: 721774722214430702}
+  - component: {fileID: 8797783331973167232}
+  - component: {fileID: 8705022206643823063}
   m_Layer: 0
   m_Name: Calles5
   m_TagString: Untagged
@@ -102,3 +104,75 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inicioTipo: izqCarril
   finTipo: centroCarril
+--- !u!60 &8797783331973167232
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4428036443873458593}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10.24, y: 5.76}
+    newSize: {x: 10.24, y: 5.76}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -2.4158971, y: 2.8799999}
+      - {x: -2.8158793, y: 0.91223603}
+      - {x: -3.7296033, y: -0.9842252}
+      - {x: -3.818391, y: -2.8799999}
+      - {x: -5.1195636, y: -2.8799999}
+      - {x: -5.120555, y: 2.8829048}
+    - - {x: 2.2476447, y: 2.8799999}
+      - {x: 2.0467136, y: 0.8103875}
+      - {x: 1.0538828, y: -1.4461187}
+      - {x: 0.741539, y: -2.86349}
+      - {x: 5.1090546, y: -2.844454}
+      - {x: 5.108643, y: 2.9017289}
+  m_UseDelaunayMesh: 0
+--- !u!114 &8705022206643823063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4428036443873458593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b766a346d84c8c45bdc51d5cfe28fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  factorReduccion: 2

@@ -6,6 +6,7 @@ public class CocheObstaculo : MonoBehaviour
     public Cronometro cronometroScript;
     public GameObject audioFXGO;
     public AudioFX audioFXScript;
+    public float velocidadBajada = 5;
 
     void Start()
     {
@@ -14,6 +15,11 @@ public class CocheObstaculo : MonoBehaviour
 
         audioFXGO = GameObject.FindAnyObjectByType<AudioFX>().gameObject;
         audioFXScript = audioFXGO.GetComponent<AudioFX>();
+    }
+
+    void Update()
+    {
+        transform.Translate(Vector3.down * velocidadBajada * Time.deltaTime);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -25,4 +31,6 @@ public class CocheObstaculo : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    
 }

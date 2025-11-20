@@ -31,10 +31,18 @@ public class MotorCarreteras : MonoBehaviour
 
     private float margenCreacion = 30f;
     private List<GameObject> piezasActivas = new List<GameObject>();
+    private ControladorCoche controladorCoche;
+    private float tiempoUltimoIncremento = 0f;
+
+    [Header("CocheObstaculos")]
+    public GameObject[] prefacVehiculos;
 
 
     void Start()
     {
+        controladorCoche = FindAnyObjectByType<ControladorCoche>();
+        // Inicializa la velocidad GLOBAL a la velocidad mínima definida en el coche
+        velocidad = controladorCoche.velocidad = controladorCoche.velocidadMinima;
         InicioJuego();
     }
 
@@ -55,6 +63,7 @@ public class MotorCarreteras : MonoBehaviour
 
         VelocidadMotorCarretera();
         MedirPantalla();
+        BuscoVehiculos();
         BuscoCalles();
     }
 
@@ -68,6 +77,11 @@ public class MotorCarreteras : MonoBehaviour
     void VelocidadMotorCarretera()
     {
         velocidad = 18;
+    }
+
+    void BuscoVehiculos()
+    {
+        prefacVehiculos = Resources.LoadAll<GameObject>("Vehiculos");
     }
 
     void BuscoCalles()
@@ -118,14 +132,111 @@ public class MotorCarreteras : MonoBehaviour
         calleNueva = nuevaPieza;
 
         PosicionoCalles();
+        PosicionVehiculos();
     }
 
     void PosicionoCalles()
     {
-        //MidoCalle();
         tamañoCalle += MidoCalle(calleAnterior);
         calleNueva.transform.position = new Vector3(calleAnterior.transform.position.x, calleAnterior.transform.position.y + tamañoCalle, 0);
         salioDePantalla = false;
+    }
+
+    void PosicionVehiculos()
+    {
+        if (contadorCalles <= 1 || !inicioJuego) return;
+
+        // Máximo de vehículos por pieza segun tiempo transcurrido
+        int segundos = Mathf.FloorToInt(Time.timeSinceLevelLoad);
+        int maxVehiculos = 1 + (segundos / 30); //aumenta en 1 cada 30s
+
+        // Obtén el SpriteRenderer de la nueva pieza (el área visible de la pista)
+        SpriteRenderer sr = calleNueva.GetComponent<SpriteRenderer>();
+        if(sr == null){Debug.Log("No hay SpriteRender en calleNueva.");}
+
+        float ancho = sr.bounds.size.x;
+        float alto = sr.bounds.size.y;
+
+        // Región Y válida (evita bordes extremos)
+        float yBase = calleNueva.transform.position.y - (alto / 2f);
+        float yMin = yBase + alto * 0.10f;
+        float yMax = yBase + alto * 0.90f;
+
+        List<(float xMin, float xMax)> franjas = BuscarIntervalosSinColliders(sr, calleNueva, (yMin + yMax) / 2f);
+
+
+        if (franjas.Count == 0) return;
+
+        for (int vehiculos = 0; vehiculos < maxVehiculos && franjas.Count > 0; vehiculos++)
+        {
+            // Elige franja al azar
+            var franja = franjas[Random.Range(0, franjas.Count)];
+            float randX = Random.Range(franja.xMin, franja.xMax);
+
+            // Elige Y en la zona segura (puedes variar o usar el centro)
+            float randY = Random.Range(yMin, yMax);
+            Vector2 pos = new Vector2(randX, randY);
+
+            // Instancia el vehículo sólo si el punto está también libre en Y
+            Collider2D[] sobreZonas = Physics2D.OverlapPointAll(pos);
+            bool permitido = true;
+            foreach (var col in sobreZonas)
+            {
+                if (col.GetComponent<TerrenoLento>() != null || col.GetComponent<CocheObstaculo>() != null)
+                {
+                    permitido = false;
+                    break;
+                }
+            }
+            if (permitido && prefacVehiculos.Length > 0)
+            {
+                GameObject prefab = prefacVehiculos[Random.Range(0, prefacVehiculos.Length)];
+                GameObject vehiculo = Instantiate(prefab, pos, Quaternion.identity);
+                vehiculo.transform.parent = GameObject.Find("MotorVehiculos").transform;
+
+                // Sincronizar la velocidad del vehículo con la velocidad global de la pista
+                var obs = vehiculo.GetComponent<CocheObstaculo>();
+                if (obs != null) obs.velocidadBajada = velocidad;
+            }
+        }
+    }
+
+    List<(float xMin, float xMax)> BuscarIntervalosSinColliders(SpriteRenderer sr, GameObject pieza, float yMedio)
+    {
+        List<(float, float)> huecos = new List<(float, float)>();
+        float ancho = sr.bounds.size.x;
+        float xBase = sr.bounds.center.x;
+        float paso = 0.2f; // más bajo = más preciso, más lento
+        float rangoMin = xBase - ancho * 0.5f;
+        float rangoMax = xBase + ancho * 0.5f;
+
+        float xMinLibre = float.NaN;
+        bool adentro = false;
+        for (float x = rangoMin; x <= rangoMax; x += paso)
+        {
+            Vector2 pos = new Vector2(x, yMedio);
+            Collider2D[] colls = Physics2D.OverlapPointAll(pos);
+            bool hayColliderPropio = false;
+            foreach (var c in colls)
+            {
+                if (c.transform.IsChildOf(pieza.transform))
+                    hayColliderPropio = true;
+            }
+            if (!hayColliderPropio)
+            {
+                if (!adentro) { xMinLibre = x; adentro = true; }
+            }
+            else
+            {
+                if (adentro)
+                {
+                    huecos.Add((xMinLibre, x - paso));
+                    adentro = false;
+                }
+            }
+        }
+        if (adentro) huecos.Add((xMinLibre, rangoMax));
+        return huecos;
     }
 
     Pieza ObtenerPiezaMasAlta()
@@ -161,7 +272,7 @@ public class MotorCarreteras : MonoBehaviour
             {
                 if (calleAnterior.transform.GetChild(i).gameObject.GetComponent<Pieza>() != null)
                 {
-                    tamanho = calleAnterior.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().bounds.size.y;
+                    tamanho += calleAnterior.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().bounds.size.y;
                 }
             }
         }
@@ -181,6 +292,24 @@ public class MotorCarreteras : MonoBehaviour
     {
         if (inicioJuego == true && juegoTerminado == false)
         {
+            // Mantener sincronizdas las velocidades globales
+            float tiempoActual = Time.timeSinceLevelLoad;
+            float minVel = controladorCoche.velocidadMinima;
+            float maxVel = controladorCoche.velocidadMaxima;
+
+            // En cada frame, usa la global actual
+            velocidad = controladorCoche.velocidad;
+
+            // Cada 30s, sube la velocidad +5f si no llega al máximo
+            if (tiempoActual > tiempoUltimoIncremento + 30f && velocidad < maxVel)
+            {
+                velocidad = Mathf.Min(velocidad + 5f, maxVel);
+                controladorCoche.velocidad = velocidad; // También la del coche
+                // También pueden sincronizar así si quieres que el incremento solo se aplique gradualmente:
+                // controladorCoche.velocidadMaxima = velocidad;
+                tiempoUltimoIncremento = tiempoActual;
+            }
+
             transform.Translate(Vector3.down * velocidad * Time.deltaTime);
             float puntoAnticipacion = medidaLimitePantalla.y + margenCreacion;
             if (calleAnterior.transform.position.y + tamañoCalle < puntoAnticipacion && salioDePantalla == false)

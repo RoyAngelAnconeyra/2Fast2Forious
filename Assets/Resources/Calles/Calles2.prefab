@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7705982986299990769}
   - component: {fileID: 1424127027587631402}
   - component: {fileID: 1820497011104663377}
+  - component: {fileID: 7778057277671433184}
+  - component: {fileID: -8391813382366948953}
   m_Layer: 0
   m_Name: Calles2
   m_TagString: Untagged
@@ -102,3 +104,75 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inicioTipo: centroCarril
   finTipo: izqCarril
+--- !u!60 &7778057277671433184
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609287998837343784}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10.24, y: 5.76}
+    newSize: {x: 10.24, y: 5.76}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -5.12, y: 2.8799999}
+      - {x: -5.12, y: -2.8799999}
+      - {x: -2.3275754, y: -2.8788521}
+      - {x: -2.7009442, y: -1.0096027}
+      - {x: -3.651471, y: 1.0674675}
+      - {x: -3.817544, y: 2.8799999}
+    - - {x: 0.5585954, y: 2.8956258}
+      - {x: 1.0022033, y: 1.162155}
+      - {x: 2.104559, y: -1.2267613}
+      - {x: 2.074782, y: -2.8799999}
+      - {x: 5.186963, y: -2.8401}
+      - {x: 5.1470695, y: 2.8799999}
+  m_UseDelaunayMesh: 0
+--- !u!114 &-8391813382366948953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609287998837343784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b766a346d84c8c45bdc51d5cfe28fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  factorReduccion: 2

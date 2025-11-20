@@ -71,3 +71,8 @@ _collab/
 # Se recomienda NO ignorar Packages/ para proyectos nuevos
 # pero sí ignorar paquetes cacheados del editor
 UnityPackageManager/
+
+# ============================
+#    Carpeta personalizada
+# ============================
+Store/

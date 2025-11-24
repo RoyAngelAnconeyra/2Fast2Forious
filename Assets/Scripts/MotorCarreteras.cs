@@ -221,6 +221,7 @@ public class MotorCarreteras : MonoBehaviour
             {
                 if (c.transform.IsChildOf(pieza.transform))
                     hayColliderPropio = true;
+                    break;
             }
             if (!hayColliderPropio)
             {
@@ -230,7 +231,7 @@ public class MotorCarreteras : MonoBehaviour
             {
                 if (adentro)
                 {
-                    huecos.Add((xMinLibre, x - paso));
+                    huecos.Add((xMinLibre, x));
                     adentro = false;
                 }
             }

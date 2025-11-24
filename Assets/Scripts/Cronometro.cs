@@ -20,10 +20,10 @@ public class Cronometro : MonoBehaviour
         motorCarreterasGO = GameObject.Find("MotorCarreteras");
         motorCarreteraScript = motorCarreterasGO.GetComponent<MotorCarreteras>();
 
-        txtTiempo.text = "2:00";
+        txtTiempo.text = "3:00";
         txtDistancia.text = "0";
 
-        tiempo = 120;
+        tiempo = 180;
         
     }
 

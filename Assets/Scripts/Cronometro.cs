@@ -20,11 +20,17 @@ public class Cronometro : MonoBehaviour
         motorCarreterasGO = GameObject.Find("MotorCarreteras");
         motorCarreteraScript = motorCarreterasGO.GetComponent<MotorCarreteras>();
 
+        tiempo = PlayerPrefs.GetInt("TiempoJuego", 180);
+
+        ActualizarTextoTiempo();
+        txtDistancia.text = "0";
+
+        /*
         txtTiempo.text = "3:00";
         txtDistancia.text = "0";
 
         tiempo = 180;
-        
+        */
     }
 
     // Update is called once per frame
@@ -43,6 +49,13 @@ public class Cronometro : MonoBehaviour
             txtTiempo.text = "00:00";
         }
     }
+
+    void ActualizarTextoTiempo()
+    {
+        int minutos = (int)tiempo / 60;
+        int segundos = (int)tiempo % 60;
+        txtTiempo.text = minutos.ToString() + ":" + segundos.ToString().PadLeft(2, '0');
+    }
     
     void CalculoTiempoDistancia()
     {
@@ -50,8 +63,6 @@ public class Cronometro : MonoBehaviour
         txtDistancia.text = ((int)distancia).ToString();
 
         tiempo -= Time.deltaTime;
-        int minutos = (int)tiempo / 60;
-        int segundos = (int)tiempo % 60;
-        txtTiempo.text = minutos.ToString() + ":" + segundos.ToString().PadLeft(2, '0');
+        ActualizarTextoTiempo();
     }
 }

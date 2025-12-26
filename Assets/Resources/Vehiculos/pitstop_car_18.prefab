@@ -152,7 +152,9 @@ MonoBehaviour:
   cronometroScript: {fileID: 0}
   audioFXGO: {fileID: 0}
   audioFXScript: {fileID: 0}
-  velocidadBajada: 5
+  velocidadBajada: 6
+  quitarTiempoGO: {fileID: 0}
+  quitarTiempo: {fileID: 0}
 --- !u!114 &-1868336574305981984
 MonoBehaviour:
   m_ObjectHideFlags: 0

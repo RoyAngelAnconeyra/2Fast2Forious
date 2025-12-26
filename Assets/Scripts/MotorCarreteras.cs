@@ -7,6 +7,7 @@ public class MotorCarreteras : MonoBehaviour
 {
     public GameObject contenedorCallesGO;
     public GameObject[] contenedorCallesArray;
+    public string nombreNivel;
     public float velocidad;
     public bool inicioJuego;
     public bool juegoTerminado;
@@ -86,7 +87,15 @@ public class MotorCarreteras : MonoBehaviour
 
     void BuscoCalles()
     {
-        contenedorCallesArray = Resources.LoadAll<GameObject>("Calles");
+        string rutaCalles = "Calles/" + nombreNivel;
+        contenedorCallesArray = Resources.LoadAll<GameObject>(rutaCalles);
+        
+        if (contenedorCallesArray.Length == 0)
+        {
+            Debug.LogError("No se encontraron piezas en Resources/Calles/" + nombreNivel + ". Verifica la carpeta y el nombre del nivel.");
+            return;
+        }
+        
         CrearPieza();
     }
     
@@ -138,7 +147,7 @@ public class MotorCarreteras : MonoBehaviour
     void PosicionoCalles()
     {
         tamañoCalle += MidoCalle(calleAnterior);
-        calleNueva.transform.position = new Vector3(calleAnterior.transform.position.x, calleAnterior.transform.position.y + tamañoCalle, 0);
+        calleNueva.transform.position = new Vector3(calleAnterior.transform.position.x, calleAnterior.transform.position.y + tamañoCalle - 0.05f, 0);
         salioDePantalla = false;
     }
 

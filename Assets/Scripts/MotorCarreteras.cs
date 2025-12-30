@@ -38,12 +38,21 @@ public class MotorCarreteras : MonoBehaviour
     [Header("CocheObstaculos")]
     public GameObject[] prefacVehiculos;
 
+    [Header("Velocidades del Juego")]
+    public float velocidadPista = 5f;        // Velocidad de las piezas/calles
+    public float velocidadVehiculosBase = 7f; // Velocidad BASE de vehículos
+    public float velocidadFondos = 3f;        // Velocidad de fondos parallax
+    [Range(0.7f, 1.3f)]
+    public float variacionVehiculos = 1f;     // ±30% variación por vehículo
 
     void Start()
     {
         controladorCoche = FindAnyObjectByType<ControladorCoche>();
         // Inicializa la velocidad GLOBAL a la velocidad mínima definida en el coche
-        velocidad = controladorCoche.velocidad = controladorCoche.velocidadMinima;
+        velocidadPista = controladorCoche.velocidadMinima;
+        velocidadVehiculosBase = controladorCoche.velocidadMinima * 1.2f;
+        velocidadFondos = controladorCoche.velocidadMinima * 0.6f;
+        controladorCoche.velocidad = velocidadPista;
         InicioJuego();
     }
 
@@ -205,7 +214,12 @@ public class MotorCarreteras : MonoBehaviour
 
                 // Sincronizar la velocidad del vehículo con la velocidad global de la pista
                 var obs = vehiculo.GetComponent<CocheObstaculo>();
-                if (obs != null) obs.velocidadBajada = velocidad;
+                if (obs != null) 
+                {
+                    // Velocidad base + variación aleatoria (±30%)
+                    float variacion = Random.Range(1f - variacionVehiculos * 0.3f, 1f + variacionVehiculos * 0.3f);
+                    obs.velocidadBajada = velocidadVehiculosBase * variacion;
+                }
             }
         }
     }
@@ -307,20 +321,17 @@ public class MotorCarreteras : MonoBehaviour
             float minVel = controladorCoche.velocidadMinima;
             float maxVel = controladorCoche.velocidadMaxima;
 
-            // En cada frame, usa la global actual
-            velocidad = controladorCoche.velocidad;
-
             // Cada 30s, sube la velocidad +5f si no llega al máximo
-            if (tiempoActual > tiempoUltimoIncremento + 30f && velocidad < maxVel)
+            if (tiempoActual > tiempoUltimoIncremento + 30f)
             {
-                velocidad = Mathf.Min(velocidad + 5f, maxVel);
-                controladorCoche.velocidad = velocidad; // También la del coche
-                // También pueden sincronizar así si quieres que el incremento solo se aplique gradualmente:
-                // controladorCoche.velocidadMaxima = velocidad;
+                velocidadPista = Mathf.Min(velocidadPista + 5f, maxVel);
+                velocidadVehiculosBase = Mathf.Min(velocidadVehiculosBase + 5f, maxVel);
+                velocidadFondos = Mathf.Min(velocidadFondos + 3f, maxVel * 0.8f); // Fondos más lentos
+                controladorCoche.velocidad = velocidadPista;
                 tiempoUltimoIncremento = tiempoActual;
             }
 
-            transform.Translate(Vector3.down * velocidad * Time.deltaTime);
+            transform.Translate(Vector3.down * velocidadPista * Time.deltaTime);
             float puntoAnticipacion = medidaLimitePantalla.y + margenCreacion;
             if (calleAnterior.transform.position.y + tamañoCalle < puntoAnticipacion && salioDePantalla == false)
             {

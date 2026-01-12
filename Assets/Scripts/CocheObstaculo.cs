@@ -17,17 +17,37 @@ public class CocheObstaculo : MonoBehaviour
 
     void Start()
     {
-        cronometroGO = GameObject.FindAnyObjectByType<Cronometro>().gameObject;
-        cronometroScript = cronometroGO.GetComponent<Cronometro>();
+        InitializeReferences();
+    }
 
-        audioFXGO = GameObject.FindAnyObjectByType<AudioFX>().gameObject;
-        audioFXScript = audioFXGO.GetComponent<AudioFX>();
+    void OnEnable()
+    {
+        // Reset references when reused from pool
+        InitializeReferences();
+    }
 
-        quitarTiempoGO = GameObject.Find("QuitarTiempo");
-        quitarTiempo = quitarTiempoGO.GetComponent<TextMeshProUGUI>();
-        quitarTiempo.text = "";
+    void InitializeReferences()
+    {
+        if (cronometroScript == null)
+        {
+            cronometroGO = GameObject.FindAnyObjectByType<Cronometro>()?.gameObject;
+            if (cronometroGO != null) cronometroScript = cronometroGO.GetComponent<Cronometro>();
+        }
+
+        if (audioFXScript == null)
+        {
+            audioFXGO = GameObject.FindAnyObjectByType<AudioFX>()?.gameObject;
+            if (audioFXGO != null) audioFXScript = audioFXGO.GetComponent<AudioFX>();
+        }
+
+        if (quitarTiempo == null)
+        {
+            quitarTiempoGO = GameObject.Find("QuitarTiempo");
+            if (quitarTiempoGO != null) quitarTiempo = quitarTiempoGO.GetComponent<TextMeshProUGUI>();
+        }
         
-        motorCarreterasScript = GameObject.FindAnyObjectByType<MotorCarreteras>();
+        if (motorCarreterasScript == null)
+            motorCarreterasScript = GameObject.FindAnyObjectByType<MotorCarreteras>();
     }
 
     void Update()
@@ -47,7 +67,11 @@ public class CocheObstaculo : MonoBehaviour
 
             StartCoroutine(MostrarPenalizacion());
 
-            Destroy(this.gameObject);
+            // Return to pool instead of destroying
+            if (ObjectPool.Instance != null)
+                ObjectPool.Instance.ReturnVehiculo(gameObject);
+            else
+                Destroy(gameObject);
         }
     }
 

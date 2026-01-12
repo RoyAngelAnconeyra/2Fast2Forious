@@ -55,6 +55,15 @@ public class MotorCarreteras : MonoBehaviour
     [Range(0.0f, 0.5f)]
     public float variacionVehiculos = 0.25f;   // Rango de variación: ±[0-50%] de velocidad base (0.3 = ±30%)
 
+    [Header("Configuración de Spawn")]
+    [SerializeField] private float spawnMarginBottom = 0.15f;  // Margen inferior para spawn de vehículos
+    [SerializeField] private float spawnMarginTop = 0.85f;     // Margen superior para spawn de vehículos
+
+    [Header("Configuración de Dificultad")]
+    [SerializeField] private float difficultyInterval = 30f;   // Segundos entre incrementos de velocidad
+    [SerializeField] private float speedIncrementPista = 5f;   // Incremento de velocidad de pista
+    [SerializeField] private float speedIncrementFondos = 3f;  // Incremento de velocidad de fondos
+
     void Start()
     {
         controladorCoche = FindAnyObjectByType<ControladorCoche>();
@@ -96,6 +105,13 @@ public class MotorCarreteras : MonoBehaviour
         MedirPantalla();
         BuscoVehiculos();
         BuscoCalles();
+
+        // Initialize object pools
+        if (ObjectPool.Instance != null)
+        {
+            ObjectPool.Instance.InitializeVehiculos(prefacVehiculos, motorVehiculosTransform);
+            ObjectPool.Instance.InitializePiezas(contenedorCallesArray, transform);
+        }
     }
 
     public void JuegoTerminadoEstados()
@@ -161,9 +177,18 @@ public class MotorCarreteras : MonoBehaviour
             return;
         }
 
-        // Elige una pieza compatible al azar
-        GameObject seleccionada = compatibles[Random.Range(0, compatibles.Count)];
-        GameObject nuevaPieza = Instantiate(seleccionada);
+        // Use object pool instead of Instantiate
+        GameObject nuevaPieza = null;
+        if (ObjectPool.Instance != null)
+        {
+            nuevaPieza = ObjectPool.Instance.GetPieza(tipoFinAnterior);
+        }
+        else
+        {
+            // Fallback if no pool
+            GameObject seleccionada = compatibles[Random.Range(0, compatibles.Count)];
+            nuevaPieza = Instantiate(seleccionada);
+        }
         nuevaPieza.name = "Calle" + contadorCalles;
         nuevaPieza.transform.parent = gameObject.transform;
         piezasActivas.Add(nuevaPieza);
@@ -216,8 +241,8 @@ public class MotorCarreteras : MonoBehaviour
 
         // Región Y válida (evita bordes extremos)
         float yBase = calleNueva.transform.position.y - (alto / 2f);
-        float yMin = yBase + alto * 0.15f;
-        float yMax = yBase + alto * 0.85f;
+        float yMin = yBase + alto * spawnMarginBottom;
+        float yMax = yBase + alto * spawnMarginTop;
 
         // Usar carriles fijos mezclados para variedad
         List<float> carriles = new List<float>(carrilsSpawn);
@@ -247,20 +272,35 @@ public class MotorCarreteras : MonoBehaviour
 
             if (permitido && prefacVehiculos.Length > 0)
             {
-                GameObject prefab = prefacVehiculos[Random.Range(0, prefacVehiculos.Length)];
-                GameObject vehiculo = Instantiate(prefab, pos, Quaternion.identity);
-                if (motorVehiculosTransform != null) vehiculo.transform.parent = motorVehiculosTransform;
-                else vehiculo.transform.parent = gameObject.transform;
-
-                // Sincronizar velocidad con la pista
-                var obs = vehiculo.GetComponent<CocheObstaculo>();
-                if (obs != null)
+                // Use object pool instead of Instantiate
+                GameObject vehiculo = null;
+                if (ObjectPool.Instance != null)
                 {
-                    // 1.1x a 1.6x de velocidad de pista (siempre se mueven hacia adelante)
-                    float variacion = Random.Range(1.1f, 1.1f + variacionVehiculos * 2f);
-                    obs.velocidadBajada = velocidadPista * variacion;
+                    vehiculo = ObjectPool.Instance.GetVehiculo();
                 }
-                vehiculosCreados++;
+                else
+                {
+                    GameObject prefab = prefacVehiculos[Random.Range(0, prefacVehiculos.Length)];
+                    vehiculo = Instantiate(prefab);
+                }
+                
+                if (vehiculo != null)
+                {
+                    vehiculo.transform.position = pos;
+                    vehiculo.transform.rotation = Quaternion.identity;
+                    if (motorVehiculosTransform != null) vehiculo.transform.parent = motorVehiculosTransform;
+                    else vehiculo.transform.parent = gameObject.transform;
+
+                    // Sincronizar velocidad con la pista
+                    var obs = vehiculo.GetComponent<CocheObstaculo>();
+                    if (obs != null)
+                    {
+                        // 1.1x a 1.6x de velocidad de pista (siempre se mueven hacia adelante)
+                        float variacion = Random.Range(1.1f, 1.1f + variacionVehiculos * 2f);
+                        obs.velocidadBajada = velocidadPista * variacion;
+                    }
+                    vehiculosCreados++;
+                }
             }
         }
     }
@@ -351,12 +391,12 @@ public class MotorCarreteras : MonoBehaviour
             float minVel = controladorCoche.velocidadMinima;
             float maxVel = controladorCoche.velocidadMaxima;
 
-            // Cada 30s, sube la velocidad +5f si no llega al máximo
-            if (tiempoActual > tiempoUltimoIncremento + 30f)
+            // Incrementar velocidad según intervalo configurado
+            if (tiempoActual > tiempoUltimoIncremento + difficultyInterval)
             {
-                velocidadPista = Mathf.Min(velocidadPista + 5f, maxVel);
-                velocidadVehiculosBase = Mathf.Min(velocidadVehiculosBase + 5f, maxVel);
-                velocidadFondos = Mathf.Min(velocidadFondos + 3f, maxVel * 0.8f); // Fondos más lentos
+                velocidadPista = Mathf.Min(velocidadPista + speedIncrementPista, maxVel);
+                velocidadVehiculosBase = Mathf.Min(velocidadVehiculosBase + speedIncrementPista, maxVel);
+                velocidadFondos = Mathf.Min(velocidadFondos + speedIncrementFondos, maxVel * 0.8f); // Fondos más lentos
                 controladorCoche.velocidad = velocidadPista;
                 tiempoUltimoIncremento = tiempoActual;
 
@@ -380,7 +420,11 @@ public class MotorCarreteras : MonoBehaviour
                 {
                     var go = piezasActivas[i];
                     piezaAlturas.Remove(go);
-                    Destroy(go);
+                    // Return to pool instead of destroying
+                    if (ObjectPool.Instance != null)
+                        ObjectPool.Instance.ReturnPieza(go);
+                    else
+                        Destroy(go);
                     piezasActivas.RemoveAt(i);
                 }
             }
@@ -388,11 +432,5 @@ public class MotorCarreteras : MonoBehaviour
 
     }
 
-    void DestruyoCalles()
-    {
-        Destroy(calleAnterior);
-        calleAnterior = null;
-        calleAnterior = calleNueva;
-        CrearPieza();
-    }
+    // DestruyoCalles() removed - unused dead code
 }

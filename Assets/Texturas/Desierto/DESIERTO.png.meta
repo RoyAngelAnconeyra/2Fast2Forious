@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a1318105cba22fc4194cecafb3e21e2a
+guid: 32c27605e7a68ef4c90d9352ede7188a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 982360510996237158
-    second: AppIcon_0
+      213: -1633781094711733784
+    second: DESIERTO_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AppIcon_0
+      name: DESIERTO_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 577
-        height: 577
+        y: 1386
+        width: 1024
+        height: 662
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 66b4d431eab02ad00800000000000000
-      internalID: 982360510996237158
+      spriteID: 8e155f020c4a359e0800000000000000
+      internalID: -1633781094711733784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DESIERTO_1
+      rect:
+        serializedVersion: 2
+        x: 950
+        y: 1386
+        width: 1024
+        height: 662
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa80fb44109cb1c4daa89af58216929a
+      internalID: 141387082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DESIERTO_2
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 721
+        width: 1024
+        height: 665
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cb1f53ecb1d82e4db61f5cef05b72fa
+      internalID: 2073743774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DESIERTO_3
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 720
+        width: 1024
+        height: 665
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43036c669972b1d48a1d65d61996cbfb
+      internalID: -302867860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DESIERTO_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 56
+        width: 1119
+        height: 665
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 409c4f8e0fb662145bc37be1ff90baf2
+      internalID: 479298098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DESIERTO_5
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 74
+        width: 929
+        height: 646
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5887ee604e1aac5489da13ed4feed1c0
+      internalID: -1521391535
       vertices: []
       indices: 
       edges: []
@@ -151,7 +261,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e5e8b0dad9579634abeab405537dbd38
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +271,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      AppIcon_0: 982360510996237158
+      DESIERTO_0: -1633781094711733784
+      DESIERTO_1: 141387082
+      DESIERTO_2: 2073743774
+      DESIERTO_3: -302867860
+      DESIERTO_4: 479298098
+      DESIERTO_5: -1521391535
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

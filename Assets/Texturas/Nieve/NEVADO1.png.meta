@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a1318105cba22fc4194cecafb3e21e2a
+guid: 5b846890c08cf3c48820ce22a18425c9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 982360510996237158
-    second: AppIcon_0
+      213: 2380890052169672820
+    second: NEVADO1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AppIcon_0
+      name: NEVADO1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 577
-        height: 577
+        y: 1386
+        width: 1024
+        height: 662
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 66b4d431eab02ad00800000000000000
-      internalID: 982360510996237158
+      spriteID: 478a5d053ee9a0120800000000000000
+      internalID: 2380890052169672820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NEVADO1_1
+      rect:
+        serializedVersion: 2
+        x: 950
+        y: 1387
+        width: 1024
+        height: 661
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2869bcf32971e8942a68de09a868cd58
+      internalID: 653635016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NEVADO1_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 724
+        width: 1024
+        height: 662
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97ce1cb488b383a45935318480344386
+      internalID: 1123113892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NEVADO1_3
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 724
+        width: 1024
+        height: 663
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c62c0b434f6182644804a8be3eb9d11f
+      internalID: -618701921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NEVADO1_4
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 59
+        width: 1172
+        height: 665
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0dd9ea0aaaee9854fabe8fc51c36fbae
+      internalID: 513654520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NEVADO1_5
+      rect:
+        serializedVersion: 2
+        x: 1165
+        y: 53
+        width: 883
+        height: 670
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6bb17dfa63acf24ab815efcacf57c89
+      internalID: 1626497694
       vertices: []
       indices: 
       edges: []
@@ -151,7 +261,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 48ebf231f3bf1f945a1d927df54ef0bd
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +271,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      AppIcon_0: 982360510996237158
+      NEVADO1_0: 2380890052169672820
+      NEVADO1_1: 653635016
+      NEVADO1_2: 1123113892
+      NEVADO1_3: -618701921
+      NEVADO1_4: 513654520
+      NEVADO1_5: 1626497694
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
